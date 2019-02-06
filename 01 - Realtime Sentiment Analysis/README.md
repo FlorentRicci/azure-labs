@@ -27,12 +27,51 @@ First of all, we need a messaging service that can handle huge amounts of stream
 
 ![](./images/eventHubs-createAccessPolicy.png "Create access policy")
 
-* Click on the created access policy and copy the connection string with primary key.
+* Click on the created access policy and copy the connection string with primary key.  You'll need this later in this lab.
 
 ![](./images/eventHubs-copyConnectionString.png "Copy connection string")
 
+### Use Logic Apps to ingest tweets
 In order to provide a simplified way to ingest tweets, we will use Azure Logic Apps.
-* Create a Logic App, named _{prefix}-sentiment-analysis-ingestion-happy_.
+* Create a Logic App, named _{prefix}-sentiment-analysis-ingestion-happy_, choose the same region as previously.
+
+![](./images/logicApps-create.png "Create Logic App")
+
+* Open the created Logic Apps and choose to start from _Blank Logic App_.
+
+![](./images/logicApps-startFromBlank.png "Start from blank Logic App")
+
+* Add the trigger _When a new tweet is posted_ and authenticate with your Twitter account.  Provide _#happy_ as the hashtag to search for and poll every second.
+
+![](./images/logicApps-addTrigger.png "Add trigger")
+
+* Below the trigger, click on _New step_ to add an action to send to Event Hubs via the _Send event_ action.  Connect the action to the previously created Event Hub namespace.
+
+* Select the correct Event Hub.  Add the Content parameter and provide the following JSON structure:
+```json
+{
+   "text" : "@{triggerBody()['TweetText']}",
+   "hashtag" : "#happy",
+   "time" : "@{utcNow()}"
+}
+```
+
+* This should result in the following Logic App:
+
+![](./images/logicApps-final.png "Final Logic App")
+
+* Click _Save_
+
+* Go to the _Overview_ blade and click _Refresh_.  After a while, you should see successful Logic App runs.  All tweets that contain _#happy_ are from now on being ingested into your Event Hub. 
+
+![](./images/logicApps-runs.png "Logic App runs")
+
+* Repeat the above steps to create another Logic App that ingests tweets that contain _#sad_
+
+
+
+
+
 
 
 
