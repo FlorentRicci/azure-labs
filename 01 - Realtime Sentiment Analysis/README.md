@@ -11,7 +11,7 @@ Please remark that you have to use an orgainizational Office365 account.
 ### Create an Event Hub
 First of all, we need a messaging service that can handle huge amounts of streaming data.  Azure Event Hubs is a great service that offers all features to build a realtime data ingestion pipeline.
 * Create a new Event Hubs namespace, named _{prefix}-sentiment-analysis-ingestion-eventHubs_
-* Provide a unique name, the right subscription, resource group and a close location.  Choose _Basic_ as the pricing tier and keep all other settings as default.
+* Provide a unique name, the right subscription, resource group and a location nearby.  Choose _Basic_ as the pricing tier and keep all other settings as default.
 
 ![](./images/eventHubs-createNamespace.png "Create Event Hubs namespace")
 
