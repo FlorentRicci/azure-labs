@@ -31,6 +31,8 @@ First of all, we need a messaging service that can handle huge amounts of stream
 
 ![](./images/eventHubs-createEventHub.png "Create Event Hub")
 
+### Create consumer group with an access poliy
+
 * Navigate to the previously created Event Hub and add a consumer group with the name _asa_ (referring to Azure Stream Analytics)
 
 ![](./images/eventHubs-createConsumerGroup.png "Create consumer group")
@@ -43,7 +45,7 @@ First of all, we need a messaging service that can handle huge amounts of stream
 
 ![](./images/eventHubs-copyConnectionString.png "Copy connection string")
 
-### Use Logic Apps to ingest tweets
+### Create a Logic App
 In order to provide a simplified way to ingest tweets, we will use Azure Logic Apps.
 * Create a Logic App, named _{prefix}-sentiment-analysis-ingestion-happy_, choose the same region as previously.
 
@@ -53,9 +55,13 @@ In order to provide a simplified way to ingest tweets, we will use Azure Logic A
 
 ![](./images/logicApps-startFromBlank.png "Start from blank Logic App")
 
+### Add a trigger that receives specific tweets
+
 * Add the trigger _When a new tweet is posted_ and authenticate with your Twitter account.  Provide _#happy_ as the hashtag to search for and poll every second.
 
 ![](./images/logicApps-addTrigger.png "Add trigger")
+
+### Send the tweets to Event Hubs
 
 * Below the trigger, click on _New step_ to add an action to send to Event Hubs via the _Send event_ action.  Connect the action to the previously created Event Hub namespace.
 
