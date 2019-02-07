@@ -1,11 +1,23 @@
 # Sentiment Analysis - Lab Instructions
-The purpose of this lab is to show how you can apply in real-time a machine learning model on streaming data.  This use case will apply sentiment analysis on an incoming stream of Twitter tweets.
+The purpose of this lab is to show how you can apply in real-time a machine learning model on streaming data.  This use case will apply sentiment analysis on an incoming stream of Twitter tweets.  The lab focusses on giving a sneak preview on what Azure has to offer, it's not optimized for production usage.
 
 ## Prerequisites
 To execute this lab successfully, you need the following:
 * An Azure subscription.  You can create a free one over [here](https://azure.microsoft.com/en-us/free/).
+* An Azure Machine Learning Studio workspace.  you can create a free one over [here](https://studio.azureml.net)
 * A Power BI pro subscription.  You can create a 60-day trial over [here](https://signup.microsoft.com/signup?sku=a403ebcc-fae0-4ca2-8c8c-7a907fd6c235&email&ru=https%3A%2F%2Fapp.powerbi.com%3Fpbi_source%3Dweb%26redirectedFromSignup%3D1%26noSignUpCheck%3D1).  
 Please remark that you have to use an organizational Office365 account.
+
+## Solution design
+The high level solution design of this lab looks like this.
+
+![](./images/lab-solutionDesign.png "Solution design")
+
+* Two Logic Apps are capturing tweets that contain _#happy_ or _#sad_
+* These tweets are ingested into Event Hubs
+* Azure Stream Analytics performs the sentiment analysis against an Azure Mache Learning web service
+* Azure Stream Analytics also calculates the average value over a specific time window
+* The results are output to Power BI, where they can be easily visualized
 
 ## Ingest tweets
 ### Create an Event Hub
@@ -71,7 +83,52 @@ In order to provide a simplified way to ingest tweets, we will use Azure Logic A
 ## Create an Azure Machine Learning web service
 In this step, we will create an Azure Machine Learning (AML) web service that performs the sentiment analysis.
 
-* Navigate to the Azure AI Gallery to 
+* Navigate to the Azure AI Gallery [experiment for sentiment analysis].(https://gallery.azure.ai/Experiment/Training-Experiment-for-Twitter-sentiment-analysis-2). 
+
+* Click on _Open in studio_.
+
+![](./images/aml-openInStudio.png "Open in studio")
+
+* Select and/or create a AML Studio workspace.  Click OK if you get a warning about upgrading the experiment to a later version.
+
+![](./images/aml-selectWorkspace.png "Select AML workspace")
+
+* Run the experiment, via the command at the bottom of the page, in order to train the model.  This can take several minutes.
+
+![](./images/aml-runExperiment.png "Run experiment")
+
+* Next, you can click _Deploy web service_.  After a while, you get redirected to the overview page of the created web service.  Copy already the _API key_, as you will need this later in the lab.
+
+![](./images/aml-webServiceOverview.png "Web service overview")
+
+* Via the _Test_ button, you can easily provide a value to be analyzed:
+
+![](./images/aml-webServiceTest.png "Web service test")
+
+* At the bottom of the page, the result appears.
+
+![](./images/aml-webServiceResult.png "Web service result")
+
+* Click now on the _REQUEST/RESPONSE_ link, to go to the _API Help Page_, where you need to copy the web service URL for later usage.
+
+![](./images/aml-webServiceUrl.png "Web service URL")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
