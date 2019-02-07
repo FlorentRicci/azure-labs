@@ -115,19 +115,23 @@ In this step, we will create an Azure Machine Learning (AML) web service that pe
 
 ## Process tweets in realtime
 
-### Configure inputs and outputs
+### Create Azure Stream Analytics Job
 
 * Create a Stream Analytics Job, named _{prefix}-sentiment-analysis-asa_.  Give the appropriate resource group and identical location as the previously created services.  Keep _Cloud_ as the hosting environment and set the _Streaming units_ to 1.  The latter will save you some costs.
 
 ![](./images/asa-create.png "Create Stream Analytics Job")
 
+### Configure Event Hubs Input
+
 * Let's now create a new _Input_, which should refer to the Event Hub that we created.  Go to the _Inputs_ blade and click _Add stream input_.  Choose _Event Hub_.
 
-* In case you created the Even Hub yourself, you can use the _Select Event Hub from your subscription_ option.  If not, provide the settings manually.  You can retrieve all these settings from the Event Hubs connection string.
+* In case you created the Event Hub yourself, you can use the _Select Event Hub from your subscription_ option.  If not, provide the settings manually.  You can retrieve all these settings from the Event Hubs connection string.
 
 ![](./images/asa-createInput.png "Create input")
 
 * The best way to verify if the input is configured correctly, is by click on _Sample data_ and specify a timespan of about 20 seconds.  This functionality will connect already to the Event Hub itself, so in case of issues, you'll get an exception.
+
+### Create AML Web Service Function
 
 * To be able to connect to the AML web service, we have to create a new _Function_.  Go to the _Funtions_ blade and click _Add_.  Choose _Azure ML_.  
 
@@ -135,7 +139,9 @@ In this step, we will create an Azure Machine Learning (AML) web service that pe
 
 ![](./images/asa-createFunction.png "Create function")
 
-TODO: OUTPUT (will be automatically created in ASA)
+### Configure the Power BI output
+
+TODO
 
 ### Configure the query
 
