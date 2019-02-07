@@ -5,7 +5,7 @@ The purpose of this lab is to show how you can apply in real-time a machine lear
 To execute this lab successfully, you need the following:
 * An Azure subscription.  You can create a free one over [here](https://azure.microsoft.com/en-us/free/).
 * A Power BI pro subscription.  You can create a 60-day trial over [here](https://signup.microsoft.com/signup?sku=a403ebcc-fae0-4ca2-8c8c-7a907fd6c235&email&ru=https%3A%2F%2Fapp.powerbi.com%3Fpbi_source%3Dweb%26redirectedFromSignup%3D1%26noSignUpCheck%3D1).  
-Please remark that you have to use an orgainizational Office365 account.
+Please remark that you have to use an organizational Office365 account.
 
 ## Ingest tweets
 ### Create an Event Hub
@@ -37,7 +37,7 @@ In order to provide a simplified way to ingest tweets, we will use Azure Logic A
 
 ![](./images/logicApps-create.png "Create Logic App")
 
-* Open the created Logic Apps and choose to start from _Blank Logic App_.
+* Open the created Logic App and choose to start from _Blank Logic App_.
 
 ![](./images/logicApps-startFromBlank.png "Start from blank Logic App")
 
@@ -66,9 +66,12 @@ In order to provide a simplified way to ingest tweets, we will use Azure Logic A
 
 ![](./images/logicApps-runs.png "Logic App runs")
 
-* Repeat the above steps to create another Logic App that ingests tweets that contain _#sad_
+* Repeat the above steps to create another Logic App that ingests tweets that contain _#sad_.
 
+## Create an Azure Machine Learning web service
+In this step, we will create an Azure Machine Learning (AML) web service that performs the sentiment analysis.
 
+* Navigate to the Azure AI Gallery to 
 
 
 
