@@ -31,7 +31,7 @@ First of all, we need a messaging service that can handle huge amounts of stream
 
 ![](./images/eventHubs-createEventHub.png "Create Event Hub")
 
-### Create consumer group with an access poliy
+### Create a consumer group with an access policy
 
 * Navigate to the previously created Event Hub and add a consumer group with the name _asa_ (referring to Azure Stream Analytics)
 
@@ -84,7 +84,7 @@ In order to provide a simplified way to ingest tweets, we will use Azure Logic A
 
 ![](./images/logicApps-runs.png "Logic App runs")
 
-* Repeat the above steps to create another Logic App that ingests tweets that contain _#sad_.
+> Repeat the above steps to create another Logic App that ingests tweets that contain _#sad_.
 
 ## Create a web service that performs sentiment analysis
 In this step, we will create an Azure Machine Learning (AML) web service that performs the sentiment analysis.
