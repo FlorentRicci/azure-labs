@@ -17,7 +17,7 @@ The high level solution design of this lab looks like this.
 * These tweets are ingested into Event Hubs
 * Azure Stream Analytics performs the sentiment analysis against an Azure Mache Learning web service
 * Azure Stream Analytics also calculates the average value over a specific time window
-* The results are output to Power BI, where they can be easily visualized
+* The results are outputted to Power BI, where they can be easily visualized
 
 ## Ingest tweets
 ### Create an Event Hub
