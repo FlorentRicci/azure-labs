@@ -124,7 +124,7 @@ In this step, we will create an Azure Machine Learning (AML) web service that pe
 
 ## Process tweets in realtime
 
-### Create Azure Stream Analytics Job
+### Create an Azure Stream Analytics Job
 We need an Azure Stream Analytics Job to process the incoming stream of tweets in realtime.
 
 * Create a Stream Analytics Job, named _{prefix}-sentiment-analysis-asa_.  Give the appropriate resource group and identical location as the previously created services.  Keep _Cloud_ as the hosting environment and set the _Streaming units_ to 1.  The latter will save you some costs.
@@ -194,6 +194,8 @@ GROUP BY
 
 * Click _Save_.
 
+### Start and monitor the job
+
 > In the portal, there are no real good testing capabilities.  When using Visual Studio, you can debug your query, while it is connected to real data inputs.
 
 * Go to the _Overview_ blade and start the job from now.
@@ -204,10 +206,9 @@ GROUP BY
 
 ## Visualize results in Power BI
 
-* In your Power BI namespace, you should see under the _Datasets_ tab, that a data set has been automatically created by Azure Stream Analytics.
+In your Power BI namespace, you should see under the _Datasets_ tab, that a data set has been automatically created by Azure Stream Analytics.
 
-![](./images/powerbi-dataSet.png "Power BI data set")
-
+![](./images/powerbi-dataset.png "Power BI data set")
 
 * In the _Actions_ of your data set, choose _Create report_.
 
