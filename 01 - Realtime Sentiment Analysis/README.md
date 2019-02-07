@@ -80,7 +80,7 @@ In order to provide a simplified way to ingest tweets, we will use Azure Logic A
 
 * Repeat the above steps to create another Logic App that ingests tweets that contain _#sad_.
 
-## Create an Azure Machine Learning web service
+## Create a web service that performs sentiment analysis
 In this step, we will create an Azure Machine Learning (AML) web service that performs the sentiment analysis.
 
 * Navigate to the Azure AI Gallery [experiment for sentiment analysis].(https://gallery.azure.ai/Experiment/Training-Experiment-for-Twitter-sentiment-analysis-2). 
@@ -113,6 +113,33 @@ In this step, we will create an Azure Machine Learning (AML) web service that pe
 
 ![](./images/aml-webServiceUrl.png "Web service URL")
 
+## Process tweets in realtime
+
+### Configure inputs and outputs
+
+* Create a Stream Analytics Job, named _{prefix}-sentiment-analysis-asa_.  Give the appropriate resource group and identical location as the previously created services.  Keep _Cloud_ as the hosting environment and set the _Streaming units_ to 1.  The latter will save you some costs.
+
+![](./images/asa-create.png "Create Stream Analytics Job")
+
+* Let's now create a new _Input_, which should refer to the Event Hub that we created.  Go to the _Inputs_ blade and click _Add stream input_.  Choose _Event Hub_.
+
+* In case you created the Even Hub yourself, you can use the _Select Event Hub from your subscription_ option.  If not, provide the settings manually.  You can retrieve all these settings from the Event Hubs connection string.
+
+![](./images/asa-createInput.png "Create input")
+
+* The best way to verify if the input is configured correctly, is by click on _Sample data_ and specify a timespan of about 20 seconds.  This functionality will connect already to the Event Hub itself, so in case of issues, you'll get an exception.
+
+* To be able to connect to the AML web service, we have to create a new _Function_.  Go to the _Funtions_ blade and click _Add_.  Choose _Azure ML_.  
+
+* Provide the function alias _getSentiment_.  Provide the settings manually by specifying the _Url_ and _API Key_ that you copied previously.
+
+![](./images/asa-createFunction.png "Create function")
+
+TODO: OUTPUT (will be automatically created in ASA)
+
+### Configure the query
+
+Remove the timestamp BY
 
 
 
