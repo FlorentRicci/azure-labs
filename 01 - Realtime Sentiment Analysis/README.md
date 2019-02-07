@@ -32,7 +32,7 @@ First of all, we need a messaging service that can handle huge amounts of stream
 ![](./images/eventHubs-createEventHub.png "Create Event Hub")
 
 ### Create a consumer group with an access policy
-Each client that reeds from the Event Hub needs to be assigned to a particular consumer group.  It's a good practise to give each consumer group a separate access policy, so you can revoke each one of them separately.
+Each client that reads from the Event Hub needs to be assigned to a particular consumer group.  It's a good practise to give each consumer group a separate access policy, so you can revoke each one of them separately.
 
 * Navigate to the previously created Event Hub and add a consumer group with the name _asa_ (referring to Azure Stream Analytics)
 
@@ -131,7 +131,7 @@ We need an Azure Stream Analytics Job to process the incoming stream of tweets i
 
 ![](./images/asa-create.png "Create Stream Analytics Job")
 
-### Configure Event Hubs Input
+### Configure the Event Hubs Input
 
 Let's now create a new _Input_, which should refer to the Event Hub that we created.  
 * Go to the _Inputs_ blade and click _Add stream input_.  Choose _Event Hub_.
@@ -146,7 +146,7 @@ Let's now create a new _Input_, which should refer to the Event Hub that we crea
 
 To be able to connect to the AML web service, we have to create a new _Function_.  
 
-*Go to the _Funtions_ blade and click _Add_.  Choose _Azure ML_.  
+* Go to the _Funtions_ blade and click _Add_.  Choose _Azure ML_.  
 
 * Provide the function alias _getSentiment_.  Provide the settings manually by specifying the _Url_ and _API Key_ that you copied previously.
 
@@ -158,10 +158,72 @@ We need to to send the result to Power BI, which means creating an _Output_.
 
 * Go to the _Outputs_ blade and click _Add_.  Choose Power BI.
 
+* Provide the output alias _powerbi_.  Specify a meaningful _Dataset name_ and _Table name_.  These names will be used to create automatically a data set in Power BI.
+
+![](./images/asa-createOutput.png "Create output")
+
+* Click on _Authorize_ and login with your Power BI account and click _Save_.
+
+* You can test the output via the _"..."_ button.
 
 ### Configure the query
+Now, we have to write a query that calls the AML function to get the sentiment score for each tweet and aggregates the results per 10 seconds.
 
-Remove the timestamp BY
+* Go to the _Query_ blade and paste the following SQL statement in the query window.
+
+```sql
+--Create a temp table that contains the sentiment score (via the getSentiment function)
+WITH 
+scoredData AS (  
+    SELECT time, hashtag, getSentiment(text) as result 
+    FROM twitterfeed 
+)
+
+--Select average score over a window of 10 seconds and send it to Power BI
+SELECT 
+    System.TimeStamp as time, 
+    hashtag, 
+    AVG(result.[Score]) as score 
+INTO
+    powerbi
+FROM 
+    scoredData 
+GROUP BY 
+    hashtag, TumblingWindow(second,10) 
+```
+
+* Click _Save_.
+
+> In the portal, there are no real good testing capabilities.  When using Visual Studio, you can debug your query, while it is connected to real data inputs.
+
+* Go to the _Overview_ blade and start the job from now.
+
+* It takes a while before the job is completed up and running, but after a minute of 5, you should see that the first events are getting processed.
+
+![](./images/asa-jobRun.png "ASA Job Run")
+
+## Visualize results in Power BI
+
+* In your Power BI namespace, you should see under the _Datasets_ tab, that a data set has been automatically created by Azure Stream Analytics.
+
+![](./images/powerbi-dataSet.png "Power BI data set")
+
+
+* In the _Actions_ of your data set, choose _Create report_.
+
+* Select the _Line chart_ as the chart type.  Take _time_ as the _Axis_, _hashtag_ as the _Legend_ and _score_ as the _Values_.
+
+![](./images/powerbi-configureChart.png "Power BI chart")
+
+* Make the chart itself bigger, so it nicely fits your screen.  You should see the results by now.  Normally, _#happy_ should have a significantly better sentiment score, compared to _#sad_.
+
+![](./images/powerbi-result.png "Power BI result")
+
+* Save the report and give it a meaningful name.
+
+> Optionally, you can try to create a dashboard that gets updated in realtime.  More info about this can be found [here](https://docs.microsoft.com/en-us/power-bi/service-real-time-streaming#set-up-your-real-time-streaming-dataset-in-power-bi).
+
+Congratulations, you've finished this lab!
 
 
 
