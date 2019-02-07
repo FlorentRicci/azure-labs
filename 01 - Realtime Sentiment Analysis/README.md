@@ -225,7 +225,7 @@ In your Power BI namespace, you should see under the _Datasets_ tab, that a data
 > Optionally, you can try to create a dashboard that gets updated in realtime.  More info about this can be found [here](https://docs.microsoft.com/en-us/power-bi/service-real-time-streaming#set-up-your-real-time-streaming-dataset-in-power-bi).
 
 
-**Congratulations, you've finished this lab!**
+#### Congratulations, you've finished this lab!
 
 
 
