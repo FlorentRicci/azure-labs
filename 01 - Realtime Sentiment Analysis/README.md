@@ -32,6 +32,7 @@ First of all, we need a messaging service that can handle huge amounts of stream
 ![](./images/eventHubs-createEventHub.png "Create Event Hub")
 
 ### Create a consumer group with an access policy
+Each client that reeds from the Event Hub needs to be assigned to a particular consumer group.  It's a good practise to give each consumer group a separate access policy, so you can revoke each one of them separately.
 
 * Navigate to the previously created Event Hub and add a consumer group with the name _asa_ (referring to Azure Stream Analytics)
 
@@ -56,12 +57,14 @@ In order to provide a simplified way to ingest tweets, we will use Azure Logic A
 ![](./images/logicApps-startFromBlank.png "Start from blank Logic App")
 
 ### Add a trigger that receives specific tweets
+This Logic App must fire each time a tweet contains a certain key word.
 
 * Add the trigger _When a new tweet is posted_ and authenticate with your Twitter account.  Provide _#happy_ as the hashtag to search for and poll every second.
 
 ![](./images/logicApps-addTrigger.png "Add trigger")
 
 ### Send the tweets to Event Hubs
+This Logic App has to send the captured tweets to Event Hubs.
 
 * Below the trigger, click on _New step_ to add an action to send to Event Hubs via the _Send event_ action.  Connect the action to the previously created Event Hub namespace.
 
@@ -89,7 +92,7 @@ In order to provide a simplified way to ingest tweets, we will use Azure Logic A
 ## Create a web service that performs sentiment analysis
 In this step, we will create an Azure Machine Learning (AML) web service that performs the sentiment analysis.
 
-* Navigate to the Azure AI Gallery [experiment for sentiment analysis].(https://gallery.azure.ai/Experiment/Training-Experiment-for-Twitter-sentiment-analysis-2). 
+* Navigate to the Azure AI Gallery [experiment for sentiment analysis](https://gallery.azure.ai/Experiment/Predictive-Mini-Twitter-sentiment-analysis-Experiment-1). 
 
 * Click on _Open in studio_.
 
@@ -122,6 +125,7 @@ In this step, we will create an Azure Machine Learning (AML) web service that pe
 ## Process tweets in realtime
 
 ### Create Azure Stream Analytics Job
+We need an Azure Stream Analytics Job to process the incoming stream of tweets in realtime.
 
 * Create a Stream Analytics Job, named _{prefix}-sentiment-analysis-asa_.  Give the appropriate resource group and identical location as the previously created services.  Keep _Cloud_ as the hosting environment and set the _Streaming units_ to 1.  The latter will save you some costs.
 
@@ -129,7 +133,8 @@ In this step, we will create an Azure Machine Learning (AML) web service that pe
 
 ### Configure Event Hubs Input
 
-* Let's now create a new _Input_, which should refer to the Event Hub that we created.  Go to the _Inputs_ blade and click _Add stream input_.  Choose _Event Hub_.
+Let's now create a new _Input_, which should refer to the Event Hub that we created.  
+* Go to the _Inputs_ blade and click _Add stream input_.  Choose _Event Hub_.
 
 * In case you created the Event Hub yourself, you can use the _Select Event Hub from your subscription_ option.  If not, provide the settings manually.  You can retrieve all these settings from the Event Hubs connection string.
 
@@ -137,9 +142,11 @@ In this step, we will create an Azure Machine Learning (AML) web service that pe
 
 * The best way to verify if the input is configured correctly, is by click on _Sample data_ and specify a timespan of about 20 seconds.  This functionality will connect already to the Event Hub itself, so in case of issues, you'll get an exception.
 
-### Create AML Web Service Function
+### Create AML Web Service function
 
-* To be able to connect to the AML web service, we have to create a new _Function_.  Go to the _Funtions_ blade and click _Add_.  Choose _Azure ML_.  
+To be able to connect to the AML web service, we have to create a new _Function_.  
+
+*Go to the _Funtions_ blade and click _Add_.  Choose _Azure ML_.  
 
 * Provide the function alias _getSentiment_.  Provide the settings manually by specifying the _Url_ and _API Key_ that you copied previously.
 
@@ -147,7 +154,10 @@ In this step, we will create an Azure Machine Learning (AML) web service that pe
 
 ### Configure the Power BI output
 
-TODO
+We need to to send the result to Power BI, which means creating an _Output_.  
+
+* Go to the _Outputs_ blade and click _Add_.  Choose Power BI.
+
 
 ### Configure the query
 
