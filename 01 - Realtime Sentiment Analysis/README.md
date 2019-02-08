@@ -1,6 +1,10 @@
 # Sentiment Analysis - Lab Instructions
 The purpose of this lab is to show how you can apply in real-time a machine learning model on streaming data.  This use case will apply sentiment analysis on an incoming stream of Twitter tweets.  The lab focusses on giving a sneak preview on what Azure has to offer, it's not optimized for production usage.
 
+This is a demo of the lab:
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/oeaYz-QK0l8/0.jpg)](https://www.youtube.com/watch?v=oeaYz-QK0l8)
+
 ## Prerequisites
 To execute this lab successfully, you need the following:
 * An Azure subscription.  You can create a free one over [here](https://azure.microsoft.com/en-us/free/).
